@@ -1,0 +1,54 @@
+{
+    "provider": {
+        "name": "Our Provider"
+    },
+    "consumer": {
+        "name": "Our Consumer"
+    },
+    "interactions": [
+        {
+            "description": "a request for json data",
+            "request": {
+                "method": "GET",
+                "path": "/go/api/dashboard"
+            },
+            "response": {
+                "status": 404
+            },
+            "providerStates": [
+                {
+                    "name": "data count == 0"
+                }
+            ]
+        },
+        {
+            "description": "a request for json data",
+            "request": {
+                "method": "GET",
+                "path": "/go/api/dashboard"
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "count": "100"
+                }
+            },
+            "providerStates": [
+                {
+                    "name": "data count > 0"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "pact-specification": {
+            "version": "3.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.5.14"
+        }
+    }
+}

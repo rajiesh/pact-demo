@@ -1,0 +1,50 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+  }
+}
+
+plugins {
+  id "au.com.dius.pact" version "4.0.4"
+  id "com.wiredforcode.spawn" version "0.8.2"
+}
+
+import com.wiredforcode.gradle.spawn.*
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+  compile("org.springframework.boot:spring-boot-starter-web") {
+    exclude module: "spring-boot-starter-tomcat"
+  }
+  compile("org.springframework.boot:spring-boot-starter-jetty")
+  compile("org.springframework.boot:spring-boot-starter-actuator")
+}
+
+springBoot {
+  mainClassName = 'org.pact.demo.ProviderService'
+}
+
+task startProvider(type: SpawnProcessTask, dependsOn: 'assemble') {
+  command "java -Dspring.profiles.active=test -jar ${jar.archivePath}"
+  ready 'Started MainApplication'
+}
+
+task stopProvider(type: KillProcessTask) {
+
+}
+
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Provider service for PACT demo',
+        	'Implementation-Version': "1.0",
+        	'Main-Class': 'org.pact.demo.ProviderService'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

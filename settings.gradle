@@ -1,0 +1,5 @@
+include 'consumer-service'
+include 'provider-service'
+include 'functional-tests'
+
+rootProject.name = 'pact-demo'
