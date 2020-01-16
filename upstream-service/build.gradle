@@ -26,23 +26,23 @@ dependencies {
 }
 
 springBoot {
-  mainClassName = 'org.pact.demo.ProviderService'
+  mainClassName = 'org.pact.demo.UpstreamService'
 }
 
-task startProvider(type: SpawnProcessTask, dependsOn: 'assemble') {
+task startUpstream(type: SpawnProcessTask, dependsOn: 'assemble') {
   command "java -Dspring.profiles.active=test -jar ${jar.archivePath}"
-  ready 'Started ProviderService'
+  ready 'Started UpstreamService'
 }
 
-task stopProvider(type: KillProcessTask) {
+task stopUpstream(type: KillProcessTask) {
 
 }
 
 task fatJar(type: Jar) {
 	manifest {
-        attributes 'Implementation-Title': 'Provider service for PACT demo',
+        attributes 'Implementation-Title': 'Upstream service for PACT demo',
         	'Implementation-Version': "1.0",
-        	'Main-Class': 'org.pact.demo.ProviderService'
+        	'Main-Class': 'org.pact.demo.UpstreamService'
     }
     baseName = project.name + '-all'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }

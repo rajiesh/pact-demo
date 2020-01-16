@@ -27,7 +27,7 @@ public class ClientTest {
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8153);
 
-//    @Test
+    @Test
     public void canProcessTheJsonPayloadFromTheProvider() throws UnirestException, InterruptedException {
 
 

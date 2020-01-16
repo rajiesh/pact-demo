@@ -17,7 +17,8 @@ import com.wiredforcode.gradle.spawn.*
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-dependencies {
+dependencies { 
+    compile 'com.mashape.unirest:unirest-java:1.4.9'
   compile("org.springframework.boot:spring-boot-starter-web") {
     exclude module: "spring-boot-starter-tomcat"
   }
@@ -26,23 +27,23 @@ dependencies {
 }
 
 springBoot {
-  mainClassName = 'org.pact.demo.ProviderService'
+  mainClassName = 'org.pact.demo.DownstreamService'
 }
 
-task startProvider(type: SpawnProcessTask, dependsOn: 'assemble') {
+task startDownstream(type: SpawnProcessTask, dependsOn: 'assemble') {
   command "java -Dspring.profiles.active=test -jar ${jar.archivePath}"
-  ready 'Started ProviderService'
+  ready 'Started UpstreamService'
 }
 
-task stopProvider(type: KillProcessTask) {
+task stopDownstream(type: KillProcessTask) {
 
 }
 
 task fatJar(type: Jar) {
 	manifest {
-        attributes 'Implementation-Title': 'Provider service for PACT demo',
+        attributes 'Implementation-Title': 'Downstream service for PACT demo',
         	'Implementation-Version': "1.0",
-        	'Main-Class': 'org.pact.demo.ProviderService'
+        	'Main-Class': 'org.pact.demo.DownstreamService'
     }
     baseName = project.name + '-all'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }

@@ -7,12 +7,12 @@ import java.util.Collections;
 import org.springframework.boot.SpringApplication;
 
 @SpringBootApplication
-public class ProviderService {
+public class DownstreamService {
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(ProviderService.class);
+        SpringApplication app = new SpringApplication(DownstreamService.class);
         app.setDefaultProperties(Collections
-          .singletonMap("server.port", "9090"));
+          .singletonMap("server.port", "8080"));
         app.run(args);
     }
 
